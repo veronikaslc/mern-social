@@ -33,7 +33,7 @@ function Event(props) {
   const [ isEdit, setIsEdit] = useState(false)
   const jwt = auth.isAuthenticated()
   const theme = useTheme();
-  const isNew = match.params.eventId === "new"
+  const [ isNew, setIsNew ] = useState( match.params.eventId === "new")
   const saveAgent = !isNew ? Events.update : Events.create
 
   useEffect(() => {
@@ -75,7 +75,7 @@ function Event(props) {
     return function cleanup(){
       abortController.abort()
     }
-  }, [match.params.eventId])
+  }, [])
   
   // Update available dropdown list each time we add/remove guest to guest list
   useEffect(() => {
@@ -101,7 +101,7 @@ function Event(props) {
                       })
     }
     saveAgent({
-      id: match.params.eventId
+      id: event._id
     }, {
       t: jwt.token
     }, event).then((data) => {
@@ -111,6 +111,8 @@ function Event(props) {
       } else {
         setAlertType("success")
         setError("Saved event!")
+        setIsNew(false)
+        setValues(data)
       }
       setIsEdit(false)
     })
@@ -198,9 +200,8 @@ function Event(props) {
                                     <Edit/>
                                   </IconButton>
                                 }
-                                <DeleteDialog itemId={match.params.eventId}
+                                <DeleteDialog item={values}
                                               type="event"
-                                              name={values.name || ''}
                                               removeFunction={Events.remove}
                                               redirectBack={true}/>
                              </>}

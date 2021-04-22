@@ -115,7 +115,12 @@ const update = async (req, res) => {
 
 const removeGuest = async (req, res) => {
     let event = req.event
-    let guests = event.guests.filter( guest => guest._id != req.body.guestId )
+    console.log("Before")
+    console.log(req.body.guestId)
+    console.log(event.guests)
+    let guests = event.guests.filter( guest => guest.guest._id != req.body.guestId )
+    console.log("After")
+    console.log(guests)
     event.guests = guests
     event.updated = Date.now()
     try {

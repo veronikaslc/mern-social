@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types'
 
 import { withStyles, IconButton, Button, Dialog, DialogActions, DialogContent, DialogContentText,
-  DialogTitle } from '@material-ui/core'
+  DialogTitle, Tooltip } from '@material-ui/core'
 
 import DeleteIcon from '@material-ui/icons/Delete'
 import AlertMessage from './AlertMessage'
@@ -12,8 +12,7 @@ import auth from './../auth/auth-helper'
 import styles from './../styles'
 
 function DeleteDialog(props) {
-  const { itemId, type, name, removeMessage, removeCustomAction, removeFunction, redirectBack,
-    callback, classes } = props
+  const { item, type, removeMessage, removeCustomAction, removeFunction, redirectBack, onDelete, classes } = props
   const [open, setOpen] = useState(false)
   const [error, setError] = useState('')
   const jwt = auth.isAuthenticated()
@@ -21,27 +20,29 @@ function DeleteDialog(props) {
   const clickButton = () => {
     setOpen(true)
   }
+  const name = item.name
 
   const deleteItem = () => {
     if (removeCustomAction) {
-      // if we pass whole action like remove guest from event
-      removeCustomAction(itemId)
+      // For example, if we pass whole custom action like remove guest from event
+      removeCustomAction(item, onDelete)
       setOpen(false)
-    }
-    removeFunction({
-      id: itemId
-    }, {t: jwt.token}).then((data) => {
-      if (data && data.error) {
-        setError(data.error)
-      } else {
-        if (redirectBac) {
-          goBack()
+    } else {
+      removeFunction({
+        id: item._id
+      }, {t: jwt.token}).then((data) => {
+        if (data && data.error) {
+          setError(data.error)
         } else {
-          callback && callback(item) 
-          setOpen(false)
+          if (redirectBack) {
+            goBack()
+          } else {
+            onDelete && onDelete(item)
+            setOpen(false)
+          }
         }
-      }
-    })
+      })
+    }
   }
   
   let goBack = () => {
@@ -57,16 +58,19 @@ function DeleteDialog(props) {
     setOpen(false)
   }
 
-  return (<span>
-      <IconButton aria-label="Delete" onClick={clickButton} color="secondary" className={classes.deleteButton}>
-        <DeleteIcon/>
-      </IconButton>
+  return (
+    <span>
+      <Tooltip title={(removeMessage || "delete ") + type + " " + name}>
+        <IconButton aria-label="Delete" onClick={clickButton} color="secondary" className={classes.deleteButton}>
+          <DeleteIcon/>
+        </IconButton>
+      </Tooltip>
 
       <Dialog open={open} onClose={handleRequestClose}>
-        <DialogTitle>Delete {type}</DialogTitle>
+        <DialogTitle>Delete</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {(removeMessage || "Confirm to delete ") + type + " " + name}
+            Confirm to {(removeMessage || "delete ") + type + " " + name}
           </DialogContentText>
           <AlertMessage message={error} type="error"/>
         </DialogContent>
@@ -79,11 +83,12 @@ function DeleteDialog(props) {
           </Button>
         </DialogActions>
       </Dialog>
-    </span>)
+    </span>
+  )
 }
 
 DeleteDialog.propTypes = {
-  itemId: PropTypes.string.isRequired,
+  item: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   removeFunction: PropTypes.func.isRequired,

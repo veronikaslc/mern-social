@@ -60,9 +60,8 @@ function Guests(props) {
               cellStyle: { padding: theme.spacing(2), textAlign: 'right'},
               headerStyle: { textAlign: 'right', padding: theme.spacing(2) },
               sorting: false,
-              render: rowData => <DeleteDialog itemId={rowData._id}
+              render: rowData => <DeleteDialog item={rowData}
                                                type="guest"
-                                               name={rowData.name}
                                                removeFunction={GuestsApi.remove}/>
               },
             ]}

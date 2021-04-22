@@ -64,9 +64,9 @@ function Guest(props) {
     })
   }
 
-  const removeGuestFromEvent = (eventId) => {
+  const removeGuestFromEvent = (event, onDelete) => {
     EventsApi.removeGuest({
-      id: eventId
+      id: event._id
     }, {
       t: jwt.token
     }, {guestId : guest._id}).then((data) => {
@@ -74,11 +74,9 @@ function Guest(props) {
         setAlertType("error")
         setError(data.error)
       } else {
-        // remove from table
-        const updatedEvents = events
-        const index = updatedEvents.indexOf(event)
-        updatedEvents.splice(index, 1)
-        setEvents(updatedEvents)
+        onDelete && onDelete(event)
+        setAlertType("success")
+        setError("Removed " + guest.name +" from event " + event.name)
       }
     })
   }
@@ -138,11 +136,10 @@ function Guest(props) {
                                    </IconButton>
                                  </>
                                 }
-                              <DeleteDialog itemId={match.params.guestId}
-                                type="guest"
-                                name={guest.name}
-                                removeFunction={GuestsApi.remove}
-                                redirectBack={true}/>
+                              <DeleteDialog item={guest}
+			                                type="guest"
+			                                removeFunction={GuestsApi.remove}
+			                                redirectBack={true}/>
                 </>}
         />
         <CardContent className={classes.cardContent}>
@@ -181,7 +178,7 @@ function Guest(props) {
                   <Events data={events}
                           principal={"guest"}
                           tableTitle={"Events attenden by " + guest.name}
-                          removeMessage={"Confirm to delete " + guest.name + " "}
+                          removeMessage={"delete " + guest.name + " from "}
                           removeCustomAction={removeGuestFromEvent}/>
                 </ListItem>
               }

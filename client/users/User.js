@@ -87,13 +87,6 @@ function User(props) {
     setUser({...user, [name]: value })
   }
 
-  const removeEventCallback = (event) => {
-    const updatedEvent = events
-    const index = updatedEvents.indexOf(event)
-    updatedEvents.splice(index, 1)
-    setEvents(updatedEvents)
-  }
-
   return (
       <Card className={classes.cardItem}>
         <Typography variant="body2" className={classes.detailsTop}>
@@ -121,11 +114,10 @@ function User(props) {
                                  </>
                               }
                               { !auth.isAdmin() &&
-                                <DeleteDialog itemId={match.params.userId}
-                                            type="user"
-                                            name={user.name}
-                                            removeFunction={Users.remove}
-                                            redirectBack={true}/>
+                                  <DeleteDialog item={user}
+	                                            type="user"
+	                                            removeFunction={Users.remove}
+	                                            redirectBack={true}/>
                               }
                             </>}
         />
@@ -176,8 +168,7 @@ function User(props) {
                   <Events data={events}
                           principal={"user"}
                           style={{width: '100%'}}
-                          tableTitle={"Events created by " + user.name}
-                          removeEventCallback={removeEventCallback}/>
+                          tableTitle={"Events created by " + user.name}/>
                 </ListItem>
               }
             </List>

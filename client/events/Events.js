@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles'
 
-import { withStyles, Paper, Typography } from '@material-ui/core'
+import { withStyles, Paper, Typography, IconButton } from '@material-ui/core'
 
+import AddIcon from '@material-ui/icons/Add'
 import ArrowForward from '@material-ui/icons/ArrowForward'
 import DeleteDialog from './../core/DeleteDialog'
 import AlertMessage from './../core/AlertMessage'
@@ -15,7 +16,7 @@ import MaterialTable from 'material-table'
 import styles from './../styles'
 
 function Events(props) { 
-  const { data, principal, tableTitle, removeCustomAction, removeEventCallback, removeMessage, classes } = props
+  const { data, principal, tableTitle, removeCustomAction, removeMessage, classes } = props
   const [ rowCount, setRowCount ] = useState(5)
   const [ events, setEvents ] = useState(data || [])
   const [ error, setError ] = useState('')
@@ -58,15 +59,12 @@ function Events(props) {
         cellStyle: { padding: theme.spacing(2), textAlign: 'right'},
         headerStyle: { textAlign: 'right', padding: theme.spacing(2) },
         sorting: false,
-        render: rowData => <DeleteDialog itemId={rowData._id}
-                                         item={rowData}
+        render: rowData => <DeleteDialog  item={rowData}
                                           type="event"
-                                          name={rowData.name}
                                           removeFunction={EventsApi.remove}
                                           removeMessage={removeMessage}
                                           removeCustomAction={removeCustomAction}
-                                          callback={removeEventCallback || onEventDelete}
-                           />
+                                          onDelete={onEventDelete}/>
       },
     ]
   // if we show events created by user we hide Creator column
@@ -75,8 +73,9 @@ function Events(props) {
   }
 
   const onEventDelete = (event) => {
-    const updatedEvent = events
-    const index = updatedEvents.indexOf(event)
+    const updatedEvents = events
+    const deletedEvent = updatedEvents.find(item => item._id == event._id)[0]
+    const index = updatedEvents.indexOf(deletedEvent)
     updatedEvents.splice(index, 1)
     setEvents(updatedEvents)
   }
@@ -124,6 +123,17 @@ function Events(props) {
                           fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`
                          }
             }}
+            actions={[
+		      { icon: () => <Link to="/events/new">
+			                  <IconButton color="primary" className={classes.deleteButton}>
+					            <AddIcon/>
+					          </IconButton>
+					        </Link>,
+		        tooltip: 'Create event',
+		        isFreeAction: true,
+		        hidden: !!principal
+		      }
+		    ]}
             onChangeRowsPerPage={pageSize => {
               setRowCount(pageSize);
             }}
