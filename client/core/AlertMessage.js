@@ -1,33 +1,36 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 
 import PropTypes from 'prop-types'
-import { withStyles, IconButton, Typography } from '@material-ui/core'
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
-import WarningIcon from '@material-ui/icons/Warning'
-import InfoIcon from '@material-ui/icons/Info'
+import { withStyles, Fade } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 import styles from './../styles'
 
-const defaultIconMapping = {
-  success: { icon : <CheckCircleOutlineIcon size="small" fontSize="inherit" />, color: 'primary'},
-  warning: { icon : <WarningIcon size="small" fontSize="inherit" />, color: 'secondary'},
-  error: { icon : <ErrorOutlineIcon size="small" fontSize="inherit" />, color: 'error'},
-  info: { icon : <InfoIcon size="small" fontSize="inherit" />, color: 'default'}
-};
-
-// type - severity of alert - [error, warn]
+// type - severity of alert - ['error', 'info', 'success', 'warning']
 function AlertMessage(props) {
   const { type, message, classes } = props
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+     if(!message){
+      setIsVisible(false)
+      return
+     }
+     // Display the message and hide after 5 secs
+     setIsVisible(true)
+     const timer = setTimeout(() => {
+       setIsVisible(false)
+     }, 5000);
+     return () => clearTimeout(timer);
+   }, [message])
+
+  if (!isVisible) return null
 
   return (
     <span>
       { message &&
-        <Typography color={defaultIconMapping[type].color}>
-          <IconButton color={defaultIconMapping[type].color} component="span">
-            { defaultIconMapping[type].icon }
-          </IconButton>
-          {message}
-        </Typography>
+        <Fade in={isVisible}>
+          <Alert severity={type}>{message}</Alert>
+        </Fade>
       }
     </span>
   )

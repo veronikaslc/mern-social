@@ -5,10 +5,8 @@ import errorHandler from './../helpers/dbErrorHandler'
 const create = async (req, res) => {
   const guest = new Guest(req.body)
   try {
-    await guest.save()
-    return res.status(200).json({
-      message: "Successfully signed up!"
-    })
+    let result = await guest.save()
+    res.json(result)
   } catch (err) {
     return res.status(400).json({
       error: errorHandler.getAlertMessage(err)

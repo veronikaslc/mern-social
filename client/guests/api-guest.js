@@ -1,4 +1,4 @@
-const create = async (params, credentials, guest) => {
+const create = async (credentials, guest) => {
   try {
     let response = await fetch('/api/guests', {
       method: 'POST',

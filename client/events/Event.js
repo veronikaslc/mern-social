@@ -117,7 +117,10 @@ function Event(props) {
   }
 
   const createGuest = () => {
-    const user = { name : autocompleteValue }
+    const user = {
+                   name : autocompleteValue,
+                   createdBy: jwt.user._id
+                 }
     Guests.create({
       t: jwt.token
     }, user).then((data) => {
@@ -127,7 +130,7 @@ function Event(props) {
       } else {
          // Add newly created guest to the guest list
          let newGuests = addedGuests.slice()
-         let guest = data
+         let guest = {guest: { _id: data._id, name: data.name }, paymentType: 'cash'}
          guest.paymentType = 'cash'
          newGuests.push(guest)
          setAddedGuests(newGuests)

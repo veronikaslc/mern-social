@@ -65,7 +65,7 @@ const Menu = withRouter( ({history, classes}) => (
         :
         <div>
           <Link to="/events/new">
-            <Button color="primary" variant="contained" startIcon={<EventIcon />}>Event</Button>
+            <Button style={isActive(history, "/events/new")} startIcon={<EventIcon />}>Event</Button>
           </Link>
           <Button color="inherit"
                   startIcon={<ExitToAppIcon />}
