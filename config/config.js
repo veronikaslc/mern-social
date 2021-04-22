@@ -6,7 +6,8 @@ const config = {
     process.env.MONGO_HOST ||
     'mongodb://' + (process.env.IP || 'localhost') + ':' +
     (process.env.MONGO_PORT || '27017') +
-    '/mernproject'
+    '/mernproject',
+  adminPass: process.env.ADM_PASS || "admin1"
 }
 
 export default config

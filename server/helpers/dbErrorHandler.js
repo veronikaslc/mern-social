@@ -3,7 +3,7 @@
 /**
  * Get unique error field name
  */
-const getUniqueErrorMessage = (err) => {
+const getUniqueAlertMessage = (err) => {
     let output
     try {
         let fieldName = err.message.substring(err.message.lastIndexOf('.$') + 2, err.message.lastIndexOf('_1'))
@@ -18,14 +18,14 @@ const getUniqueErrorMessage = (err) => {
 /**
  * Get the error message from error object
  */
-const getErrorMessage = (err) => {
+const getAlertMessage = (err) => {
     let message = ''
 
     if (err.code) {
         switch (err.code) {
             case 11000:
             case 11001:
-                message = getUniqueErrorMessage(err)
+                message = getUniqueAlertMessage(err)
                 break
             default:
                 message = 'Something went wrong'
@@ -39,4 +39,4 @@ const getErrorMessage = (err) => {
     return message
 }
 
-export default {getErrorMessage}
+export default {getAlertMessage}

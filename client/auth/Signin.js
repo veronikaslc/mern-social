@@ -1,50 +1,26 @@
 import React, {useState} from 'react'
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import Icon from '@material-ui/core/Icon'
-import { makeStyles } from '@material-ui/core/styles'
+import {Link, Redirect} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
+
+import { withStyles, Card, CardHeader, CardActions, CardContent, Button, TextField,
+  Typography, Icon, Avatar }
+  from '@material-ui/core'
+
+import PersonIcon from '@material-ui/icons/Person'
+import AlertMessage from './../core/AlertMessage'
 import auth from './../auth/auth-helper'
-import {Redirect} from 'react-router-dom'
 import {signin} from './api-auth.js'
+import styles from './../styles'
 
-const useStyles = makeStyles(theme => ({
-  card: {
-    maxWidth: 600,
-    margin: 'auto',
-    textAlign: 'center',
-    marginTop: theme.spacing(5),
-    paddingBottom: theme.spacing(2)
-  },
-  error: {
-    verticalAlign: 'middle'
-  },
-  title: {
-    marginTop: theme.spacing(2),
-    color: theme.palette.openTitle
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 300
-  },
-  submit: {
-    margin: 'auto',
-    marginBottom: theme.spacing(2)
-  }
-}))
-
-export default function Signin(props) {
-  const classes = useStyles()
+function Signin(props) {
+  const { classes } = props
+  const [ error, setError ] = useState('')
   const [values, setValues] = useState({
       email: '',
       password: '',
-      error: '',
       redirectToReferrer: false
   })
+  let history = useHistory();
 
   const clickSubmit = () => {
     const user = {
@@ -54,7 +30,7 @@ export default function Signin(props) {
 
     signin(user).then((data) => {
       if (data.error) {
-        setValues({ ...values, error: data.error})
+        setError(data.error)
       } else {
         auth.authenticate(data, () => {
           setValues({ ...values, error: '',redirectToReferrer: true})
@@ -64,6 +40,7 @@ export default function Signin(props) {
   }
 
   const handleChange = name => event => {
+    setError("")
     setValues({ ...values, [name]: event.target.value })
   }
 
@@ -72,29 +49,34 @@ export default function Signin(props) {
         pathname: '/'
       }
   }
+
   const {redirectToReferrer} = values
     if (redirectToReferrer) {
       return (<Redirect to={from}/>)
   }
 
   return (
-      <Card className={classes.card}>
+    <Card className={classes.card}>
         <CardContent>
-          <Typography variant="h6" className={classes.title}>
-            Sign In
+          <Typography variant="h6">
+            <PersonIcon style={{verticalAlign: 'middle'}}/> Sign In
           </Typography>
           <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal"/><br/>
           <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>
-          <br/> {
-            values.error && (<Typography component="p" color="error">
-              <Icon color="error" className={classes.error}>error</Icon>
-              {values.error}
-            </Typography>)
-          }
+          <br/>
+          <AlertMessage message={error} type="error"/>
         </CardContent>
-        <CardActions>
+        <CardActions className={classes.actions}>
           <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
         </CardActions>
-      </Card>
-    )
+        <Typography variant="body1" className={classes.title}>
+          Do not have an account? 
+          <Link to="/signup">
+            <Button variant="outlined" color="primary" className={classes.signUpButton}>Sign up</Button>
+          </Link>
+        </Typography>
+    </Card>
+  )
 }
+
+export default withStyles(styles)(Signin)

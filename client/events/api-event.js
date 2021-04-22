@@ -1,24 +1,13 @@
-const create = async (user) => {
+const create = async (params, credentials, event) => {
   try {
-    let response = await fetch('/api/users/', {
+    let response = await fetch('/api/events/', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify(user)
-    })
-    return await response.json()
-  } catch(err) {
-    console.log(err)
-  }
-}
-
-const list = async (signal) => {
-  try {
-    let response = await fetch('/api/users/', {
-      method: 'GET',
-      signal: signal
+      body: JSON.stringify(event)
     })
     return await response.json()
   } catch(err) {
@@ -28,7 +17,7 @@ const list = async (signal) => {
 
 const read = async (params, credentials, signal) => {
   try {
-    let response = await fetch('/api/users/' + params.userId, {
+    let response = await fetch('/api/events/' + params.id, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -42,15 +31,48 @@ const read = async (params, credentials, signal) => {
   }
 }
 
-const update = async (params, credentials, user) => {
+const list = async (credentials, signal) => {
   try {
-    let response = await fetch('/api/users/' + params.userId, {
-      method: 'PUT',
+    let response = await fetch('/api/events', {
+      method: 'GET',
+      signal: signal,
       headers: {
         'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
-      },
-      body: user
+      }
+    })
+    return await response.json()
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+const listByUser = async (params, credentials) => {
+  try {
+    let response = await fetch('/api/events/byUser/'+ params.id, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      }
+    })
+    return await response.json()
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+const listByGuest = async (params, credentials) => {
+  try {
+    let response = await fetch('/api/events/withGuest/'+ params.id, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      }
     })
     return await response.json()
   } catch(err) {
@@ -60,7 +82,7 @@ const update = async (params, credentials, user) => {
 
 const remove = async (params, credentials) => {
   try {
-    let response = await fetch('/api/users/' + params.userId, {
+    let response = await fetch('/api/events/' + params.id, {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
@@ -74,16 +96,16 @@ const remove = async (params, credentials) => {
   }
 }
 
-const follow = async (params, credentials, followId) => {
+const removeGuest = async (params, credentials, guestObj) => {
   try {
-    let response = await fetch('/api/users/follow/', {
+    let response = await fetch('/api/events/removeGuest/' + params.id, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify({userId:params.userId, followId: followId})
+      body: JSON.stringify(guestObj)
     })
     return await response.json()
   } catch(err) {
@@ -91,16 +113,16 @@ const follow = async (params, credentials, followId) => {
   }
 }
 
-const unfollow = async (params, credentials, unfollowId) => {
+const update = async (params, credentials, event) => {
   try {
-    let response = await fetch('/api/users/unfollow/', {
+    let response = await fetch('/api/events/' + params.id, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify({userId:params.userId, unfollowId: unfollowId})
+      body: JSON.stringify(event)
     })
     return await response.json()
   } catch(err) {
@@ -108,30 +130,14 @@ const unfollow = async (params, credentials, unfollowId) => {
   }
 }
 
-const findPeople = async (params, credentials, signal) => {
-  try {
-    let response = await fetch('/api/users/findpeople/' + params.userId, {
-      method: 'GET',
-      signal: signal,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + credentials.t
-      }
-    })    
-    return await response.json()
-  } catch(err) {
-    console.log(err)
-  }
-}
 
-export {
-  create,
-  list,
+export default {
   read,
   update,
+  list,
+  listByUser,
+  listByGuest,
+  create,
   remove,
-  follow,
-  unfollow,
-  findPeople
+  removeGuest
 }
