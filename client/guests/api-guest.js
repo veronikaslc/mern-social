@@ -54,9 +54,10 @@ const update = async (params, credentials, guest) => {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: guest
+      body: JSON.stringify(guest)
     })
     return await response.json()
   } catch(err) {

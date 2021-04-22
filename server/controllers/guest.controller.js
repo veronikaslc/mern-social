@@ -59,7 +59,11 @@ const list = async (req, res) => {
 
 const update = async (req, res) => {
     let guest = req.profile
+    console.log("Guest before")
+    console.log(req.body)
     guest = extend(guest, req.body)
+    console.log("Guest after")
+    console.log(guest)
     guest.updated = Date.now()
     try {
       await guest.save()

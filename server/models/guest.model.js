@@ -11,6 +11,7 @@ const GuestSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  createdBy: {type: mongoose.Schema.ObjectId, ref: 'User'},
   about: {
     type: String,
     trim: true
