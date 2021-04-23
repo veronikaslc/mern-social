@@ -44,7 +44,7 @@ function Guests(props) {
           columns={[
             { title: 'Name',
               field: 'name',
-              cellStyle: {padding: theme.spacing(2),},
+              cellStyle: {padding: theme.spacing(2), width: '20%'},
               headerStyle: { padding: theme.spacing(2),},
               render: rowData => <Link to={"/guests/" + rowData._id}>{rowData.name}</Link>
             },

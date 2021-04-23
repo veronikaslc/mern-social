@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import compress from 'compression'
 import cors from 'cors'
 import helmet from 'helmet'
+import favicon from 'serve-favicon'
 import Template from './../template'
 import userRoutes from './routes/user.routes'
 import guestRoutes from './routes/guest.routes'
@@ -41,6 +42,7 @@ app.use(helmet())
 app.use(cors())
 
 app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')))
+app.use(favicon(path.join(CURRENT_WORKING_DIR,'client','assets','images','favicon-32x32.png')));
 
 // mount routes
 app.use('/', userRoutes)

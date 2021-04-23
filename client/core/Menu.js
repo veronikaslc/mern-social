@@ -16,11 +16,22 @@ import styles from './../styles'
 
 import auth from './../auth/auth-helper'
 
+const facebookUrl = "https://www.facebook.com/barsuktoronto"
+const facebookButton = () => {
+  return ( <IconButton edge="end" style={{color: '#ffffff'}}
+                       onClick={() => window.open(facebookUrl, '_blank')}>
+                <FacebookIcon/>
+           </IconButton>
+         )
+}
+
+console.log(auth.isAdmin())
+
 const isActive = (history, path) => {
   if (history.location.pathname == path)
     return {color: '#ffa726'}
   else
-    return {color: '#ffffff'}//className={classes.toolbar}
+    return {color: '#ffffff'}
 }
 
 const Menu = withRouter( ({history, classes}) => (
@@ -33,12 +44,18 @@ const Menu = withRouter( ({history, classes}) => (
             <HomeIcon/>
           </IconButton>
         </Link>
-        { auth.isAuthenticated() && <>
+        { auth.isAuthorized() && <>
           <Link to="/events">
-            <Button style={isActive(history, "/events")} startIcon={<EventNoteIcon />}>Events</Button>
+            <Button style={isActive(history, "/events")}
+                    startIcon={<EventNoteIcon />}>
+              Events
+            </Button>
           </Link>
           <Link to="/guests">
-            <Button style={isActive(history, "/guests")} startIcon={<GroupIcon />}>Guests</Button>
+            <Button style={isActive(history, "/guests")}
+                    startIcon={<GroupIcon />}>
+              Guests
+            </Button>
           </Link>
         </>}
         { auth.isAdmin() &&
@@ -54,30 +71,38 @@ const Menu = withRouter( ({history, classes}) => (
         ?
         <div>
           <Link to="/signup">
-            <Button style={isActive(history, "/signup")} startIcon={<AddToHomeScreenIcon />}>Sign up
+            <Button style={isActive(history, "/signup")}
+                    startIcon={<AddToHomeScreenIcon />}>
+              Sign up
             </Button>
           </Link>
           <Link to="/signin">
-            <Button style={isActive(history, "/signin")} startIcon={<PersonIcon />}>Sign in
+            <Button style={isActive(history, "/signin")}
+                    startIcon={<PersonIcon />}>
+              Sign in
             </Button>
           </Link>
+          {facebookButton()}
         </div>
         :
         <div>
-          <Link to="/events/new">
-            <Button style={isActive(history, "/events/new")} startIcon={<EventIcon />}>Event</Button>
+          { auth.isAuthorized() &&
+            <Link to="/events/new">
+              <Button style={isActive(history, "/events/new")}
+                      startIcon={<EventIcon />}>
+                Event
+              </Button>
+            </Link>
+          }
+          <Link>
+            <Button startIcon={<ExitToAppIcon />}
+                    style={{color: '#ffffff'}}
+                    onClick={() => {auth.clearJWT(() => history.push('/signin'))}}
+            >
+              Sign out
+            </Button>
           </Link>
-          <Button color="inherit"
-                  startIcon={<ExitToAppIcon />}
-                  onClick={() => {auth.clearJWT(() => history.push('/signin'))}}
-          >
-            Sign out
-          </Button>
-          <a href="https://www.facebook.com/barsuktoronto" target="_blank" rel="noopener noreferrer">
-            <IconButton style={{color: '#ffffff'}}>
-              <FacebookIcon/>
-            </IconButton>
-          </a>
+          {facebookButton()}
         </div>
       }
       </div>

@@ -26,7 +26,7 @@ function Events(props) {
   let columns = [
       { title: 'Name',
         field: 'name',
-        cellStyle: { padding: theme.spacing(2),},
+        cellStyle: { padding: theme.spacing(2), width: '20%'},
         headerStyle: { padding: theme.spacing(2),},
         render: rowData => <Link to={"/events/" + rowData._id}>
                              {rowData.name}
@@ -131,7 +131,8 @@ function Events(props) {
 					        </Link>,
 		        tooltip: 'Create event',
 		        isFreeAction: true,
-		        hidden: !!principal
+		        hidden: !!principal,
+		        onClick: () =>{}
 		      }
 		    ]}
             onChangeRowsPerPage={pageSize => {

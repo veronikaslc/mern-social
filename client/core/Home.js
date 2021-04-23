@@ -4,17 +4,24 @@ import {Link} from 'react-router-dom'
 import { withStyles, Card, CardMedia, CardContent, Button, Grid, Typography } from '@material-ui/core'
 
 import homeImg from './../assets/images/home.jpg'
-import auth from './../auth/auth-helper'
-
 import GroupIcon from '@material-ui/icons/Group'
 import EventIcon from '@material-ui/icons/Event'
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet'
+import { Alert } from '@material-ui/lab'
+
+import auth from './../auth/auth-helper'
 
 import styles from './../styles'
 
 function Home(props) {
   const { history, classes } = props
   const [defaultPage, setDefaultPage] = useState(false)
+
+  if (auth.isAuthenticated() && !auth.isAuthorized()) {
+    return (<div className={classes.root}>
+             <Alert severity="warning">Account is waiting for the approval</Alert>
+           </div>)
+  }
 
   useEffect(()=> {
     setDefaultPage(auth.isAuthenticated())

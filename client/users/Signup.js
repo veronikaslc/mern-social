@@ -56,7 +56,7 @@ function Signup(props){
           <AlertMessage message={error} type="error"/>
         </CardContent>
         <CardActions>
-          <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
+          <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Sign up</Button>
         </CardActions>
         <Typography variant="body1" className={classes.title}>
           Already have an account? 
