@@ -27,7 +27,7 @@ const eventByID = async (req, res, next, id) => {
     })
     req.event = event
     next()
-  }catch(err){
+  } catch(err) {
     return res.status(400).json({
       error: "Could not retrieve event"
     })

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import { useTheme } from '@material-ui/core/styles';
 
-import { withStyles, Avatar, Badge, Paper, Switch } from '@material-ui/core'
+import { withStyles, Avatar, Badge, Paper, Switch, Typography } from '@material-ui/core'
 
 import DeleteDialog from './../core/DeleteDialog'
 import AlertMessage from './../core/AlertMessage'
@@ -90,16 +90,16 @@ function Users(props) {
       <Paper className={classes.root} elevation={0}>
         <AlertMessage message={error} type="error"/>
         <MaterialTable
-            title="All Users"
+            title={<Typography>Users</Typography>}
             columns={[
               { title: 'Name',
                 field: 'name',
-                cellStyle: { padding: theme.spacing(2),},
-                headerStyle: { padding: theme.spacing(2),},
+                cellStyle: {width: '30%'},
                 render: rowData => <>
                                      { rowData.approved
                                         ? 
-                                        <Avatar style={{display: 'inline-flex'}}>
+                                        <Avatar className={classes.iconSmall}
+                                                style={{display: 'inline-flex'}}>
                                           {rowData.name.charAt(0)}
                                         </Avatar>
                                         :
@@ -111,32 +111,32 @@ function Users(props) {
                                             }}
                                             variant="dot"
                                           >
-                                            <Avatar>
+                                            <Avatar className={classes.iconSmall}>
                                               {rowData.name.charAt(0)}
                                             </Avatar>
                                           </StyledBadge>
                                        }
                                        <Link to={"/users/" + rowData._id}
-                                             style={{marginLeft: theme.spacing(2)}}
+                                             style={{marginLeft: theme.spacing(1)}}
                                        >
                                          {rowData.name}
                                        </Link>
                                      </>
               },
-              { title: 'Date created',
-                cellStyle: { padding: theme.spacing(1), width: '20%'},
+              { title: 'Created',
+                cellStyle: {width: '20%'},
                 render: rowData => (new Date(rowData.created)).toDateString()
               },
               { title: 'Email',
-                cellStyle: { padding: theme.spacing(1),},
                 field: 'email'
               },
-              { title: 'Actions',
-                cellStyle: { padding: theme.spacing(2), textAlign: 'right'},
-                headerStyle: { textAlign: 'right', padding: theme.spacing(2) },
+              { title: '',
+                cellStyle: {textAlign: 'right'},
+                headerStyle: { textAlign: 'right', padding: theme.spacing(1) },
                 sorting: false,
                 render: rowData => <>
                                      <Switch
+                                        size="small"
                                         checked={rowData.approved}
                                         onChange={(event) => handleApprove(rowData, event.target.checked)}
                                         color="primary"
@@ -158,13 +158,8 @@ function Users(props) {
               actionsColumnIndex: -1,
               addRowPosition: 'first',
               pageSize: rowCount,
-              headerStyle: { backgroundColor: theme.palette.grey['200'],
-                             padding: `16px 8px`,
-                             fontWeight: '500',
-                             fontSize: `13pt` },
-              rowStyle: { padding : theme.spacing(1),
-                          fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`
-                        }
+              headerStyle: { backgroundColor: theme.palette.grey['200'],},
+              searchFieldStyle: {fontSize: '0.7rem',},
             }}
             onChangeRowsPerPage={pageSize => {
               setRowCount(pageSize);

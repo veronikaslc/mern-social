@@ -18,7 +18,7 @@ import auth from './../auth/auth-helper'
 
 const facebookUrl = "https://www.facebook.com/barsuktoronto"
 const facebookButton = () => {
-  return ( <IconButton edge="end" style={{color: '#ffffff'}}
+  return ( <IconButton style={{color: '#ffffff'}}
                        onClick={() => window.open(facebookUrl, '_blank')}>
                 <FacebookIcon/>
            </IconButton>
@@ -34,8 +34,8 @@ const isActive = (history, path) => {
 
 const Menu = withRouter( ({history, classes}) => (
 <div className={classes.toolbarRoot}>
-  <AppBar position="static">
-    <Toolbar>
+  <AppBar position="static" className={classes.appbar}>
+    <Toolbar variant="dense">
       <div className={classes.toolbarEl}>
         <Link to="/">
           <IconButton edge="start" aria-label="Home" style={isActive(history, "/")}>
@@ -86,20 +86,15 @@ const Menu = withRouter( ({history, classes}) => (
         <div>
           { auth.isAuthorized() &&
             <Link to="/events/new">
-              <Button style={isActive(history, "/events/new")}
-                      startIcon={<EventIcon />}>
-                Event
-              </Button>
+              <IconButton style={isActive(history, "/events/new")}>
+	            <EventIcon/>
+	          </IconButton>
             </Link>
           }
-          <Link>
-            <Button startIcon={<ExitToAppIcon />}
-                    style={{color: '#ffffff!important'}}
-                    onClick={() => {auth.clearJWT(() => history.push('/signin'))}}
-            >
-              Sign out
-            </Button>
-          </Link>
+          <IconButton style={{color: '#ffffff'}}
+                      onClick={() => {auth.clearJWT(() => history.push('/signin'))}}>
+            <ExitToAppIcon/>
+          </IconButton>
           {facebookButton()}
         </div>
       }

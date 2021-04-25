@@ -16,6 +16,7 @@ const GuestSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+  ballance: {type: Number, default: 0 },
   createdBy: {type: mongoose.Schema.ObjectId, ref: 'User'}
 })
 

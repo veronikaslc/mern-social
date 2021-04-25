@@ -9,8 +9,7 @@ const EventSchema = new mongoose.Schema({
     default: Date.now
   },
   guests: [ { guest: {type: mongoose.Schema.ObjectId, ref: 'Guest'},
-              paymentType: {type: String, enum : ['cash','tab','inc'], default: 'cash'},
-              paid: {type: Boolean, default: false}
+              paymentType: {type: String, enum : ['cash','tab','int'], default: 'cash'}
             }
           ],
   fee: {

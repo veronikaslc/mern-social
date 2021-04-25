@@ -26,38 +26,33 @@ function Events(props) {
   let columns = [
       { title: 'Name',
         field: 'name',
-        cellStyle: { padding: theme.spacing(2), width: '20%'},
-        headerStyle: { padding: theme.spacing(2),},
+        cellStyle: { width: '30%', paddingLeft: theme.spacing(1)},
+        headerStyle: { paddingLeft: theme.spacing(1)},
         render: rowData => <Link to={"/events/" + rowData._id}>
                              {rowData.name}
                            </Link>
       },
       { title: 'Date',
         field: 'date',
-        cellStyle: { padding: theme.spacing(1), width: '25%'},
+        cellStyle: { width: '35%'},
         render: rowData => (new Date(rowData.date)).toDateString()
       },
-      { title: 'Creator',
+      /*{ title: 'Creator',
         field: 'creator',
-        cellStyle: { padding: theme.spacing(1),},
         render: rowData => <Link to={"/users/" + rowData._id}>
                              {rowData.creator}
                            </Link>
-      },
+      },*/
       { title: 'Cover',
         field: 'fee',
-        cellStyle: { padding: '0',},
-        headerStyle: { padding: '0',},
-        render: rowData => <Typography>${rowData.fee}</Typography>
+        render: rowData => <>{"$" +rowData.fee}</>
       },
-      { title: 'Guests',
-        cellStyle: { padding: '0',},
-        headerStyle: { padding: '0',},
+      { title: 'Ppl',
         field: 'guests'
       },
-      { title: 'Actions',
-        cellStyle: { padding: theme.spacing(2), textAlign: 'right'},
-        headerStyle: { textAlign: 'right', padding: theme.spacing(2) },
+      { title: '',
+        cellStyle: { textAlign: 'right'},
+        headerStyle: { textAlign: 'right', padding: theme.spacing(1) },
         sorting: false,
         render: rowData => <DeleteDialog  item={rowData}
                                           type="event"
@@ -100,13 +95,14 @@ function Events(props) {
   }, [])
 
   return (
-      <Paper className={!principal ? classes.root : ''} elevation={0}>
+      <Paper elevation={0}>
         {tableTitle && <Typography variant="h6" className={classes.title}>
           {tableTitle}
         </Typography>}
         <AlertMessage message={error} type="error"/>
+        <div className={!principal ? classes.events : ''}>
         <MaterialTable
-            title={!tableTitle ? "All Events" : ""}
+            title={!tableTitle ? <Typography>Events</Typography> : ""}
             columns={columns}
             data={events}
             options={{
@@ -116,12 +112,8 @@ function Events(props) {
               actionsColumnIndex: -1,
               addRowPosition: 'first',
               pageSize: rowCount,
-              headerStyle: { backgroundColor: theme.palette.grey['200'],
-                             padding: `16px 8px`,
-                             fontSize: `13pt` },
-              rowStyle: { padding : theme.spacing(1),
-                          fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`
-                         }
+              headerStyle: { backgroundColor: theme.palette.grey['200'],},
+              searchFieldStyle: {fontSize: '0.7rem',},
             }}
             actions={[
 		      { icon: () => <Link to="/events/new">
@@ -137,6 +129,7 @@ function Events(props) {
               setRowCount(pageSize);
             }}
           />
+          </div>
       </Paper>
     )
 }

@@ -38,7 +38,7 @@ const read = (req, res) => {
   // 1. find all events where _id is in guests
   // let count = 0
   // for each event:
-  //   if !paid && event.paymentType == "cash"
+  //   if event.paymentType == "cash"
   //   count = count + fee
   return res.json(req.profile)
 }

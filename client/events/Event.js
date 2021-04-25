@@ -95,7 +95,6 @@ function Event(props) {
     if (addedGuests.length > 0) {
       event.guests = []
       addedGuests.map((guest) => {event.guests.push({ guest : guest.guest._id,
-                                                      paid : guest.paid,
                                                       paymentType: guest.paymentType
                                                     })
                       })
@@ -161,12 +160,6 @@ function Event(props) {
   const handlePaymentTypeChange = (guest, paymentType) => {
     let newGuests = addedGuests.slice()
     newGuests.map(item => {if (item.guest._id == guest.guest._id) {item.paymentType = paymentType} })
-    setAddedGuests(newGuests)
-  }
-
-  const handlePaidChange = (guest, paid) => {
-    let newGuests = addedGuests.slice()
-    newGuests.map(item => { if (item.guest._id == guest.guest._id) {item.paid = paid} })
     setAddedGuests(newGuests)
   }
 
@@ -320,20 +313,6 @@ function Event(props) {
                               <FormControlLabel labelPlacement="top" className={classes.radioLabel} value="inc" control={<Radio className={classes.radioCheck} disabled={!(isNew || isEdit)}/>} label="inc" />
                             </RadioGroup>
                           </FormControl>
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                className={classes.radioCheck}
-                                disabled={!(isNew || isEdit)}
-                                style={{color: theme.palette.info['400']}}
-                                checked={item.paid}
-                                onChange={(event) => handlePaidChange(item, event.target.checked)}
-                                inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              />
-                            }
-                            labelPlacement="top"
-                            label="paid"
-                          />
                           <ListItemSecondaryAction className={classes.follow}>
                             <IconButton aria-label="Delete" onClick={() => removeGuest(item)} disabled={!(isNew || isEdit)}>
                               <CloseIcon/>

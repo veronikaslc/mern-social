@@ -23,6 +23,9 @@ const styles = theme => ({
   error: {
     verticalAlign: 'middle'
   },
+  events: {
+    margin: theme.spacing(2)
+  },
   title: {
     marginTop: theme.spacing(2),
     color: theme.palette.openTitle
@@ -109,7 +112,12 @@ const styles = theme => ({
   },
   cover: {
     width: '150px'
-  }
+  },
+  iconSmall: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+    fontSize: '0.8rem'
+  },
 })
 
 export default styles

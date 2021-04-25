@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import { useTheme } from '@material-ui/core/styles';
 
-import { withStyles, Paper } from '@material-ui/core'
+import { withStyles, Paper, Typography } from '@material-ui/core'
 
 import DeleteDialog from './../core/DeleteDialog'
 import AlertMessage from './../core/AlertMessage'
@@ -40,7 +40,7 @@ function Guests(props) {
     <Paper className={classes.root} elevation={0}>
       <AlertMessage message={error} type="error"/>
         <MaterialTable
-          title="All Guests"
+          title={<Typography>Guests</Typography>}
           columns={[
             { title: 'Name',
               field: 'name',
@@ -73,13 +73,8 @@ function Guests(props) {
               actionsColumnIndex: -1,
               addRowPosition: 'first',
               pageSize: rowCount,
-              headerStyle: { backgroundColor: theme.palette.grey['200'],
-                             padding: `16px 8px`,
-                             fontWeight: '500',
-                             fontSize: `13pt` },
-              rowStyle: { padding : theme.spacing(1),
-                          fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`
-                        }
+              headerStyle: { backgroundColor: theme.palette.grey['200'] },
+              searchFieldStyle: {fontSize: '0.7rem',},
             }}
             onChangeRowsPerPage={pageSize => {
               setRowCount(pageSize);
