@@ -35,49 +35,42 @@ function Home(props) {
 
   return (
     <div className={classes.root}>
-      <Grid
-		  container
-		  direction="row"
-		  justify="center"
-		  alignItems="flex-start"
-		>
-		  <Grid item>
-	        <Card>
-		      <CardMedia
-		        className={classes.cover}
-		        image={homeImg}
-		        title="Live from space album cover"
-		      />
-		    </Card>
-		  </Grid>
-          <Grid item>
-        {defaultPage &&
-          <Grid
-              container
-              direction="column"
-              justify="space-between"
-              alignItems="center"
-              spacing={4}
-          >
-            <Grid item>
-              <Link to="/events/new">
-                <Button color="primary" variant="contained" startIcon={<EventIcon />}>Event</Button>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to="/guests">
-                <Button color="primary" variant="contained" startIcon={<GroupIcon />}>Guests</Button>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to="/events">
-                <Button color="primary" variant="contained" startIcon={<AccountBalanceWalletIcon />}>Events</Button>
-              </Link>
-            </Grid>
-          </Grid>
-        }
-        </Grid>
-        </Grid>
+      <Card style={{display: 'flex'}}>
+	      <CardMedia
+	        style={{width: 151}}
+	        image={homeImg}
+	        title="Live from space album cover"
+	      />
+	      <div style={{display: 'flex', flexDirection: 'column'}}>
+	        {defaultPage &&
+	          <Grid
+	              container
+	              direction="column"
+	              justify="space-between"
+	              alignItems="center"
+	              spacing={4}
+	          >
+	            <Grid item>
+	              <Link to="/events/new">
+	                <Button color="primary" variant="contained" startIcon={<EventIcon />}>Event</Button>
+	              </Link>
+	            </Grid>
+	            <Grid item>
+	              <Link to="/guests">
+	                <Button color="primary" variant="contained" startIcon={<GroupIcon />}>Guests</Button>
+	              </Link>
+	            </Grid>
+	            <Grid item>
+	              <Link to="/events">
+	                <Button color="primary" variant="contained" startIcon={<AccountBalanceWalletIcon />}>Events</Button>
+	              </Link>
+	            </Grid>
+	          </Grid>
+	        }
+	        
+	      </div>
+
+        </Card>
       </div>
     )
 }

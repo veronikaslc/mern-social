@@ -94,7 +94,7 @@ const Menu = withRouter( ({history, classes}) => (
           }
           <Link>
             <Button startIcon={<ExitToAppIcon />}
-                    style={{color: '#ffffff'}}
+                    style={{color: '#ffffff!important'}}
                     onClick={() => {auth.clearJWT(() => history.push('/signin'))}}
             >
               Sign out
