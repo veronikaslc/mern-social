@@ -12,7 +12,8 @@ import auth from './../auth/auth-helper'
 import styles from './../styles'
 
 function DeleteDialog(props) {
-  const { item, type, removeMessage, removeCustomAction, removeFunction, redirectBack, onDelete, classes } = props
+  const { item, type, removeMessage, removeCustomAction, removeFunction, redirectBack,
+    onDelete, disabled, classes } = props
   const [open, setOpen] = useState(false)
   const [error, setError] = useState('')
   const jwt = auth.isAuthenticated()
@@ -61,9 +62,15 @@ function DeleteDialog(props) {
   return (
     <span>
       <Tooltip title={(removeMessage || "delete ") + type + " " + name}>
-        <IconButton aria-label="Delete" onClick={clickButton} color="secondary" className={classes.deleteButton}>
+        <>
+        <IconButton aria-label="Delete"
+                    onClick={clickButton}
+                    color="secondary"
+                    disabled={disabled}
+                    className={classes.deleteButton}>
           <DeleteIcon/>
         </IconButton>
+        </>
       </Tooltip>
 
       <Dialog open={open} onClose={handleRequestClose}>

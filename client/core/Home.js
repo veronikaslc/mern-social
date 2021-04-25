@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 import { withStyles, Card, CardMedia, CardContent, Button, Grid, Typography } from '@material-ui/core'
 
-import homeImg from './../assets/images/home.jpg'
+import homeImg from './../assets/images/homeq.jpg'
 import GroupIcon from '@material-ui/icons/Group'
 import EventIcon from '@material-ui/icons/Event'
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet'
@@ -34,7 +34,23 @@ function Home(props) {
   }, [])
 
   return (
-      <div className={classes.root}>
+    <div className={classes.root}>
+      <Grid
+		  container
+		  direction="row"
+		  justify="center"
+		  alignItems="flex-start"
+		>
+		  <Grid item>
+	        <Card>
+		      <CardMedia
+		        className={classes.cover}
+		        image={homeImg}
+		        title="Live from space album cover"
+		      />
+		    </Card>
+		  </Grid>
+          <Grid item>
         {defaultPage &&
           <Grid
               container
@@ -60,6 +76,8 @@ function Home(props) {
             </Grid>
           </Grid>
         }
+        </Grid>
+        </Grid>
       </div>
     )
 }

@@ -25,8 +25,6 @@ const facebookButton = () => {
          )
 }
 
-console.log(auth.isAdmin())
-
 const isActive = (history, path) => {
   if (history.location.pathname == path)
     return {color: '#ffa726'}

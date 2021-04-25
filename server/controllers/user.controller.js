@@ -4,16 +4,16 @@ import errorHandler from './../helpers/dbErrorHandler'
 import config from './../../config/config'
 
 // Add ADMIN user
-/*
-const superuser = new User({ name: 'admin', email: "email@admin.com", password: config.adminPass, approved: true });
+//
+const superuser = new User({ name: 'admin', email: "email@barsuk.com", password: config.adminPass, approved: true });
 superuser.save(function (err, user) {
   if (err) {
-  console.log("ERROR ADDING SUPER USER")
-  return console.error(err);
+    console.log("ERROR ADDING SUPER USER")
+    return console.error(err);
   }
-  console.log("Addeded superuser");
+  console.log("Addeded ADMIN superuser");
 });
-*/
+//
 
 const create = async (req, res) => {
   const user = new User(req.body)
@@ -69,10 +69,7 @@ const list = async (req, res) => {
 
 const update = async (req, res) => {
     let user = req.profile
-    console.log(user)
     user = extend(user, req.body)
-    console.log("--AFTER--")
-    console.log(user)
     user.updated = Date.now()
     try {
       await user.save()

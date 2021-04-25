@@ -141,9 +141,11 @@ function Users(props) {
                                         onChange={(event) => handleApprove(rowData, event.target.checked)}
                                         color="primary"
                                         name="checkedB"
+                                        disabled={rowData.name== "admin"}
                                         inputProps={{ 'aria-label': 'primary checkbox' }}/>
                                       <DeleteDialog item={rowData}
                                                     type="user"
+                                                    disabled={rowData.name== "admin"}
                                                     removeFunction={UsersApi.remove}/>
                                    </>
               },

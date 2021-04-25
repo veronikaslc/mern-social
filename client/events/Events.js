@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import { useTheme } from '@material-ui/core/styles'
 
-import { withStyles, Paper, Typography, IconButton } from '@material-ui/core'
+import { withStyles, Paper, Typography } from '@material-ui/core'
 
 import AddIcon from '@material-ui/icons/Add'
 import ArrowForward from '@material-ui/icons/ArrowForward'
@@ -125,9 +125,7 @@ function Events(props) {
             }}
             actions={[
 		      { icon: () => <Link to="/events/new">
-			                  <IconButton color="primary" className={classes.deleteButton}>
-					            <AddIcon/>
-					          </IconButton>
+					          <AddIcon/>
 					        </Link>,
 		        tooltip: 'Create event',
 		        isFreeAction: true,

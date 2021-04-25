@@ -106,6 +106,9 @@ const styles = theme => ({
   },
   eventHeader: {
     paddingLeft: theme.spacing(6),
+  },
+  cover: {
+    width: '150px'
   }
 })
 

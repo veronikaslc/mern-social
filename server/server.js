@@ -6,8 +6,14 @@ import mongoose from 'mongoose'
 mongoose.Promise = global.Promise
 console.info('Connecting to mongoose %s.', config.mongoUri)
 mongoose.connect(config.mongoUri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false })
-  .then(() => console.log("--Database Connected Successfully"))
-  .catch(error => console.log('--ERROR Connecting to mongoose'))
+
+mongoose.connection.on('open', function() {
+  console.log(`--Database name: ${mongoose.connection.db.databaseName} Connected Successfully`)
+  mongoose.connection.db.dropDatabase(function(err, result){
+    console.log(`! ${mongoose.connection.db.databaseName} database dropped.`)
+  });
+});
+
 mongoose.connection.on('error', () => {
   console.error('--ERROR Connecting to mongoose')
   throw new Error(`unable to connect to database: ${config.mongoUri}`)
